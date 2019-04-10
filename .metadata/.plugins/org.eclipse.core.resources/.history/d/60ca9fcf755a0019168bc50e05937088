@@ -1,0 +1,60 @@
+package contro;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+
+public class commentsClient implements Runnable{
+	private static HttpClient client=new DefaultHttpClient();
+	private static String u;
+	private static String p;
+	private static String en;
+	public commentsClient(String us,String ps,String ens) {
+		u=us;
+		p=ps;
+		en=ens;
+		
+	}
+	public void run() {
+		HttpPost post=new HttpPost(u);
+		List<NameValuePair> list=new ArrayList<NameValuePair>();
+		list.add(new BasicNameValuePair("params",p));
+		list.add(new BasicNameValuePair("encSecKey",en));
+		try {
+			post.setEntity(new UrlEncodedFormEntity(list,HTTP.UTF_8));
+			HttpResponse response=new DefaultHttpClient().execute(post);
+			if(response.getStatusLine().getStatusCode()==200) {
+				HttpEntity result=response.getEntity();
+				String data="";
+				BufferedReader br=new BufferedReader(new InputStreamReader(result.getContent(),"utf-8"));
+				byte[] buf=new byte[8096];
+				String str;
+				while((str=br.readLine())!=null) {
+					data=data+str;
+				}
+				System.out.println(data);
+				new jsonStr(data);
+			}
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}

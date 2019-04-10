@@ -1,0 +1,31 @@
+package contro;
+
+import encryption.rSecret;
+
+public class ing {
+	public ing(int ida,int num) {
+		String id=""+ida;
+		String u="https://music.163.com/weapi/v1/resource/comments/R_SO_4_"+id+"?csrf_token=";
+		String pa="pXZVc9Ht3w7vbr2iMXnfnzYOolg8+0eoUuooDqUFCWOPQ9WXQQDua4oHaCPTrdnMgu5pRbbCgldVRPcEHG5Htq5PwHPTwnT7Rt6ck+JoUm+trVweVEYsT4oHMCxIOwvN+DN5JLI9CMr4GzAiakgrPA/Be5sdZhwMMGKY5pXdE25LI18U+2sxssxpyi+5N0wnWsvhzGaekl2k1XORTwxGoEnMjbPE/YabXnDaV91IwII=";
+		String enc="c29edae6ece50873b4f51f3a07c73def4ef785ba93f2a5c102c583bd82b96953d4a1f18f6304710a56234e2e80eeefd562045e6fd2321c753f9d25d6b139b698f49250b4c1fe69eb9aaf01cb0919c93e739036ef11653a74405cc55c70535c32637b96313c069ba763e5a5947bb8885d753a8471ccc11b2c1064eebc4c45877c";
+		
+		//new Thread(new commentsClient(u,pa,enc)).start();
+		new Thread(new rSecret(id,num)).start();
+	}
+	public static void main(String argv[]) {
+		int offset=0;
+		while(true) {
+			int sum=offset*20;
+			new ing(504835560,sum);
+			if((offset)<20) {
+				offset++;
+			}else {
+				System.out.println("END>>>>>");
+				break;
+			}
+		}
+		
+		
+	}
+	
+}

@@ -1,0 +1,41 @@
+package contro;
+
+import java.lang.reflect.Array;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+public class jsonStr {
+	private static String params;
+	private static String encSecKey;
+	public static int totals=200;
+	public jsonStr(String data) {
+		if(!data.isEmpty()) {
+		JSONObject jobject=JSONObject.fromObject(data);
+		//totals=(int)jobject.get("total");
+		if(jobject.get("hotComments")!=null) {
+			JSONArray array2=jobject.getJSONArray("hotComments");
+			for(int i=0;i<array2.size();i++) {
+			JSONObject child=array2.getJSONObject(i);
+			JSONObject msg=JSONObject.fromObject(child.get("user"));
+			System.out.println("用户ID："+msg.getInt("userId")+" 用户名："+msg.get("nickname").toString()+" 评论："
+			+child.getString("content")+" 被赞数："+child.getInt("likedCount"));
+			
+		}
+		}
+		if(jobject.get("comments")!=null) {
+			JSONArray array1=jobject.getJSONArray("comments");
+			for(int i=0;i<array1.size();i++) {
+				JSONObject child=array1.getJSONObject(i);
+				JSONObject msg=JSONObject.fromObject(child.get("user"));
+				System.out.println("用户ID："+msg.getInt("userId")+" 用户名："+msg.get("nickname").toString()+" 评论："
+				+child.getString("content")+" 被赞数："+child.getInt("likedCount"));
+				
+			}
+		}
+		
+		}else {
+			System.out.println("Error");
+		}
+	}
+}

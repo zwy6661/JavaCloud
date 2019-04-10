@@ -1,0 +1,44 @@
+package download;
+
+import java.io.*;
+import java.net.*;
+import java.util.*;
+import java.lang.*;
+
+public class download_music {
+	private static String u="http://m801.music.126.net/20190409192656/b70bcb657a70e19feb0b630379252d27/jdyyaac/015a/025b/0652/60ae02397d51a0ce9fe41832ecc1bf03.m4a";
+	private static String name="你过得好吗";
+	private static String filename="张惠妹";
+	private static int SIZE=8096;
+	static {
+		URL url;
+		try {
+			url = new URL(u);
+			URLConnection urlC=url.openConnection();
+			File file=new File("F:\\歌曲文件\\"+filename+"\\"+name+".m4a");
+			if(!file.exists()) {
+				file.mkdirs();
+			}
+			InputStream is=new BufferedInputStream(urlC.getInputStream());
+			FileOutputStream fos=new FileOutputStream(file);
+			byte[] buf=new byte[SIZE];
+			int len;
+			while((len=is.read(buf))!=-1) {
+				fos.write(buf, 0, len);
+			}
+			fos.close();
+			is.close();
+			System.out.println("下载完成！");
+		} catch (MalformedURLException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
+	public static void main(String[]args) {
+		
+	}
+}

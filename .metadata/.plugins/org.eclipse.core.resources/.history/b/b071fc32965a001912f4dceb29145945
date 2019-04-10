@@ -1,0 +1,33 @@
+package contro;
+
+import encryption.rSecret;
+
+public class ing {
+	public ing(int ida,int num) {
+		String id=""+ida;
+		String u="https://music.163.com/weapi/cloudsearch/get/web?csrf_token=";
+		String pa="alNzLbziun6HHeZurywNV3oyKIUZElwK1yni8e/IXA9DD1kDkal20fyUMMGSq6qkxFKW9t+T170O4Cx/S4k+KVQSvoLYq/Z2dJSD3BXkBxiNDJll5CWEaqfD24MvT99C6fdZ7/aolJhwgZOHwLgm+mwuhilafFxJM4MblvIcpBzF7Qrz36toVNKP27l1QL00t67/qF+VmIgX2vgVPtcKwPJEgpJ09t4yIE4GdZISQg3odixHHUFspPwT2JaDQq/nyK6ID2I1DcouVuKlIa7QADfwpAX1pOjy0FD5ZpObDDoJdFSBLKVDv+12Zoi7pJsz";
+		String enc="61b58c7c392f3ec198880e12c5f8560176b06cbacebc492e6a184a6f918ba8a2673a974b121d9785a4818c1a00c25284580178a482289c4817d868b9e24b9f457afced6ba50f7ac5537a4a49a3540d2feb44b8f787c2bbf0d9e28149685111640a4247cc42a2b1f4f61e129d5501c90653f79977e136953df1f58e20cf06b161";
+		
+		new Thread(new commentsClient(u,pa,enc)).start();
+		//new rSecret(id,num);
+	}
+	public static void main(String argv[]) {
+		/*int offset=0;
+		System.out.println("ING.......");
+		while(true) {
+			int sum=offset*20;
+			new ing(65533,sum);
+			if((offset*20)<61) {
+				offset++;
+			}else {
+				int m=jsonStr.number;
+				System.out.println("END>>>>>"+""+(m)+"");
+				break;
+			}
+		}*/
+		new ing(65533,0);
+		
+	}
+	
+}

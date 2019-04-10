@@ -1,0 +1,10 @@
+package download;
+
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
+
+public class download_music {
+	private static HttpClient client=new DefaultHttpClient();
+	
+
+}

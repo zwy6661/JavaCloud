@@ -1,0 +1,33 @@
+package contro;
+
+import encryption.rSecret;
+
+public class ing {
+	public ing(int ida,int num) {
+		String id=""+ida;
+		String u="https://music.163.com/weapi/cloudsearch/get/web?csrf_token=";
+		String pa="QgtWXQ8CeNqozk5hjexyxa7yIH0n0hD6kvzUeu5f3mCNIA0aFZccWI5mIJNfke+zXmSuZZIQ8qafKbmQWjDk7zex2OkRPgENIreRVGZpNQAOX2JAopGlQC132D6VrdE1TvQReDLFweEPsxrMRTiSuWhEkp1e7d9Zy3e/MAVvdos7ojhesnQ2/Oi+CJd9KyAdZndRUwcT1bmjNfd4by1t4/c+rf25hK4qLW938FgGRcO5AvbcqnvqKK3Ij49TqykIX9afxcjiR0ryM6xSzQOO5hes8/Ymy7cEET6cEFgrT+B9zJoWr3pL9EmYwfDZaZw6/qh5kdzugLbpE/n/MCtpZyAWo4Ae2o55yMwkbA6jIEg=";
+		String enc="7d32c13a281beda7c8d9da9fca2b8c924961ffd1de7d9f66781aa01853463e6ae47d4200f3c889fa3da51252c2573ef2319adad838b648cb9837a9bff8fc8a3666a50acfa0ed9695e22899a0ea2e26d55cc51b8c41edb97ccb05c266b7ea3597a5a52479f5ac4641d595da8c69f39eb77e44a5c8e270b166fa69466e6eed34ec";
+		
+		//new Thread(new commentsClient(u,pa,enc,1)).start();
+		new rSecret("³öÉ½",1,30);
+	}
+	public static void main(String argv[]) {
+		/*int offset=0;
+		System.out.println("ING.......");
+		while(true) {
+			int sum=offset*20;
+			new ing(65533,sum);
+			if((offset*20)<61) {
+				offset++;
+			}else {
+				int m=jsonStr.number;
+				System.out.println("END>>>>>"+""+(m)+"");
+				break;
+			}
+		}*/
+		new ing(65533,0);
+		
+	}
+	
+}

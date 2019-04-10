@@ -1,0 +1,28 @@
+package contro;
+
+import java.lang.reflect.Array;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+public class jsonStr {
+	public jsonStr(String data) {
+		if(data.length()>10) {
+		JSONObject jobject=JSONObject.fromObject(data);
+		JSONArray array=null;
+		if(jobject.get("comments")!=null) {
+			array=jobject.getJSONArray("comments");
+		}else if(jobject.get("hotComments")!=null) {
+			array=jobject.getJSONArray("hotComments");
+		}
+		for(int i=0;i<array.size();i++) {
+			JSONObject child=array.getJSONObject(i);
+			JSONObject msg=JSONObject.fromObject(child.get("user"));
+			if(msg.get("nickname").equals("卷毛与猫")) {
+			System.out.println("用户ID："+msg.getInt("userId")+" 用户名："+msg.get("nickname").toString()+" 评论："
+			+child.getString("content")+" 被赞数："+child.getInt("likedCount"));
+			}
+		}
+		}
+	}
+}

@@ -1,0 +1,33 @@
+package contro;
+
+import encryption.rSecret;
+
+public class ing {
+	public ing(int ida,int num) {
+		String id=""+ida;
+		String u="https://music.163.com/weapi/cloudsearch/get/web?csrf_token=";
+		String pa="szhR+IY2KpgU79+eW5VKWxsH3N/nhlFJoszy/Ms5pMKmJksFPl700L7dmI0ZXrqBebTvrylbFyr1P1CgBAeleV6DxFJk48jp//0xSGa0ITVFlbIoUQAQmeGe/apJ2c5jYXuIAvF23iSWZirMTEA99A==";
+		String enc="252e2abdc25a5c8e4e4131b88db3df7d01ab4a139249b78e653b97ab52f53b873993b86648e54daa3a99eeb20fd3b2c4d1d551231a152bfa56ed0a13baae9243f978bf1fbcde4e70b25087fd0aeef413a698a0a37567a550876f8cdeedb25cf359f54532eb2681f63641a4fa98b837fb9978c3296b2923bca8f5d1661d3ec5dc";
+		
+		//new Thread(new commentsClient(u,pa,enc,1)).start();
+		new rSecret("Ð¡³ó",1,0);
+	}
+	public static void main(String argv[]) {
+		/*int offset=0;
+		System.out.println("ING.......");
+		while(true) {
+			int sum=offset*20;
+			new ing(65533,sum);
+			if((offset*20)<61) {
+				offset++;
+			}else {
+				int m=jsonStr.number;
+				System.out.println("END>>>>>"+""+(m)+"");
+				break;
+			}
+		}*/
+		new ing(65533,0);
+		
+	}
+	
+}

@@ -1,0 +1,70 @@
+package contro;
+
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.PrintWriter;
+import java.lang.reflect.Array;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+public class jsonStr {
+	private static String params;
+	private static String encSecKey;
+	public static int totals=200;
+	public static int number=1;
+	public static int numbers=1;
+	public jsonStr(String data) throws IOException {
+		FileWriter fw=new FileWriter("评论/Comments"+numbers+".txt");
+		numbers++;
+		BufferedWriter bw=new BufferedWriter(fw);
+		if(!data.isEmpty()) {
+		JSONObject jobject=JSONObject.fromObject(data);
+		totals=(int)jobject.get("total");
+		//System.out.println(totals);
+		if(jobject.get("hotComments")!=null) {
+			JSONArray array2=jobject.getJSONArray("hotComments");
+			for(int i=0;i<array2.size();i++) {
+			JSONObject child=array2.getJSONObject(i);
+			JSONObject msg=JSONObject.fromObject(child.get("user"));
+			String result=new String("用户ID："+msg.getInt("userId")+" 用户名："+msg.get("nickname").toString()+" 评论："
+			+child.getString("content")+" 被赞数："+child.getInt("likedCount"));
+			//System.out.println(result);
+			try {
+				bw.write(result);
+				bw.newLine();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			number++;
+		}
+		}
+		if(jobject.get("comments")!=null) {
+			JSONArray array1=jobject.getJSONArray("comments");
+			for(int i=0;i<array1.size();i++) {
+				JSONObject child=array1.getJSONObject(i);
+				JSONObject msg=JSONObject.fromObject(child.get("user"));
+				String result=new String("用户ID："+msg.getInt("userId")+" 用户名："+msg.get("nickname").toString()+" 评论："
+				+child.getString("content")+" 被赞数："+child.getInt("likedCount"));
+				//System.out.println(result);
+				try {
+					bw.write(result);
+					bw.newLine();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				number++;
+			}
+		}
+		bw.close();
+		}else {
+			System.out.println("Error");
+		}
+	}
+}

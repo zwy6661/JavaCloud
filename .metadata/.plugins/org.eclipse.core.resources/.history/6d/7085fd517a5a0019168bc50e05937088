@@ -1,0 +1,15 @@
+package contro;
+
+import encryption.rSecret;
+
+public class ing {
+	public ing(int ida,int num) {
+		String u="https://music.163.com/weapi/v1/resource/comments/R_SO_4_504835560?csrf_token=";
+		String id=""+ida;
+		new Thread(new rSecret(id,num)).start();
+	}
+	public static void main(String argv[]) {
+		new ing(504835560,60);
+	}
+	
+}

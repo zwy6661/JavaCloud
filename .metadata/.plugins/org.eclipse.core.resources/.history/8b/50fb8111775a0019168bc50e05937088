@@ -1,0 +1,18 @@
+package contro;
+
+import encryption.rSecret;
+
+public class ing {
+	public ing(int ida) {
+		String u="https://music.163.com/weapi/v1/resource/comments/R_SO_4_504835560?csrf_token=";
+		String id=""+ida;
+		String pa="ZeIccyCDPzNNXb30c4oJwAYBJkNPtPezJ06DxknLJufHGOcjZS/VMxd+xgw+aLFxnelACjivPN1yEeZpkFRr93+3394w7zVYxjd6UdbNVOdV5f8acTWTvRooL0QRIKuAAfgBcrQSDoryJzAR9oMgaJBUaAfpa0uf7lmH257qPux3sQhaGFF8LtLa91sTvg5DwZ0AKYHn+y+c6DWr8iyRm4Z1lrv+a8o0YjWtqbHr5jM=";
+		String enc="86c432a82b947618330f6cba967372001679613f44183e681c43a11120e36834faf62952e2a758eb92b42e70e2cc03be7f0daa7e5c9c00c8b5b12895dbe93d20a5d60d5b51cd37a7e187cb14699f222eb3938a8b18ebe2c4a60751638a4882f181f249dbfd50df6d1814cbfc2d0000838110e7136f804243056e4a2b695048bc";
+		new Thread(new commentsClient(u,pa,enc)).start();
+		//new Thread(new rSecret(id)).start();
+	}
+	public static void main(String argv[]) {
+		new ing(504835560);
+	}
+	
+}

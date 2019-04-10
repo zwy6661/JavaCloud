@@ -1,9 +1,34 @@
 package Info;
-
+import java.lang.reflect.*;
 public class User_C {
 	private String userId;
 	private String userName;
 	private int likedCount;
 	private String replyId;
 	private String content;
+	public static void main(String[]args) throws InstantiationException, IllegalAccessException, IllegalArgumentException, InvocationTargetException, NoSuchMethodException, SecurityException {
+		List_Song ls=new List_Song();
+		try {
+			Class lscla = Class.forName("Info.List_Song");
+			Field[] fields=lscla.getDeclaredFields();
+			Object obj=lscla.getConstructor().newInstance();
+			for(Field f:fields) {
+				System.out.println(f.toString());
+				if(f.toString().contains("int")) {
+					f.setAccessible(true);
+					f.set(obj, 2);
+				}
+				if(f.toString().contains("String")) {
+					f.setAccessible(true);
+					f.set(obj, "jj");
+				}
+			}
+			System.out.println(obj.toString());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		
+	}
 }

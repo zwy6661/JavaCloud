@@ -1,0 +1,9 @@
+package contro;
+
+import encryption.rSecret;
+
+public class ing {
+	public ing(String ida,int type,int num) {
+		new rSecret(ida,type,num);
+	}
+}

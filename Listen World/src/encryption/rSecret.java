@@ -13,7 +13,7 @@ import contro.commentsClient;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
-public class rSecret{
+public class rSecret implements Runnable{
 	private static boolean bl=false;
 	private static String params;
 	private static String encSecKey;
@@ -42,12 +42,12 @@ public class rSecret{
 			tot="true";
 		}else if(type==3) {
 			u="https://music.163.com/weapi/song/enhance/player/url/v1?csrf_token=";
-			ida=name;
+			ida="["+name+"]";
 			types=type;
 		}
-		Ent();
+		//Ent();
 	}
-	public void Ent(){
+	/*public void Ent(){
 		ScriptEngine jseng=manager.getEngineByName("javascript");
 		if(jseng!=null) {
 			//out.println("wu");
@@ -74,19 +74,19 @@ public class rSecret{
 					if(types==1) {
 						params=(String) inv.invokeFunction("paramssend",ida,"20",o,tot);
 						encSecKey=(String)inv.invokeFunction("encSecKeysend",ida,"20",o,tot);
-						new Thread(new commentsClient(u,params,encSecKey,1)).start();
+						new commentsClient(u,params,encSecKey,1);
 					}else if(types==2) {
 						params=(String) inv.invokeFunction("Song_Listparamssend",ida,"30",o,tot);
 						encSecKey=(String)inv.invokeFunction("Song_ListencSecKeysend",ida,"30",o,tot);
-						out.println("params : "+params);
-						out.println("enc : "+encSecKey);
-						new Thread(new commentsClient(u,params,encSecKey,2)).start();
+						//out.println("params : "+params);
+						//out.println("enc : "+encSecKey);
+						new commentsClient(u,params,encSecKey,2);
 					}else if(types==3) {
 						params=(String) inv.invokeFunction("down_paramssend",ida);
 						encSecKey=(String)inv.invokeFunction("down_encSecKeysend",ida);
-						out.println("params : "+params);
-						out.println("enc : "+encSecKey);
-						new Thread(new commentsClient(u,params,encSecKey,3)).start();
+						//out.println("params : "+params);
+						//out.println("enc : "+encSecKey);
+						new commentsClient(u,params,encSecKey,3);
 					}
 					
 				} catch (NoSuchMethodException e) {
@@ -98,5 +98,60 @@ public class rSecret{
 		} catch (ScriptException e) {
 			e.printStackTrace();
 		}
+		}*/
+	@Override
+	public void run() {
+		System.out.print(u+" : "+ida+" : "+types);
+		ScriptEngine jseng=manager.getEngineByName("javascript");
+		if(jseng!=null) {
+			//out.println("wu");
 		}
+		if(!(jseng instanceof Invocable)) {
+			out.println("NO SUPPORT INVOCABLE");
+		}
+		Bindings bind=jseng.createBindings();
+		bind.put("factor", 20);
+		jseng.setBindings(bind, ScriptContext.ENGINE_SCOPE);
+		if(of==0) {
+			tot="true";
+		}else {
+			tot="false";
+		}
+		try {
+			jseng.eval(new FileReader("D:/ListenWorld/js/encode.js"));
+			if((jseng instanceof Invocable)) {
+				Invocable inv=(Invocable)jseng;
+				try {
+					
+					String o=""+of;
+					//out.print(ida+" "+of+" "+tot+"  "+o+"  ");
+					if(types==1) {
+						params=(String) inv.invokeFunction("paramssend",ida,"20",o,tot);
+						encSecKey=(String)inv.invokeFunction("encSecKeysend",ida,"20",o,tot);
+						new commentsClient(u,params,encSecKey,1);
+					}else if(types==2) {
+						params=(String) inv.invokeFunction("Song_Listparamssend",ida,"30",o,tot);
+						encSecKey=(String)inv.invokeFunction("Song_ListencSecKeysend",ida,"30",o,tot);
+						out.println("params : "+params);
+						out.println("enc : "+encSecKey);
+						new commentsClient(u,params,encSecKey,2);
+					}else if(types==3) {
+						params=(String) inv.invokeFunction("down_paramssend",ida);
+						encSecKey=(String)inv.invokeFunction("down_encSecKeysend",ida);
+						//out.println("params : "+params);
+						//out.println("enc : "+encSecKey);
+						new commentsClient(u,params,encSecKey,3);
+					}
+					
+				} catch (NoSuchMethodException e) {
+					e.printStackTrace();
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		} catch (ScriptException e) {
+			e.printStackTrace();
+		}
+		
+	}
 }

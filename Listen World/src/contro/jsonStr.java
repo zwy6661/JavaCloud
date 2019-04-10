@@ -8,9 +8,15 @@ import java.io.IOException;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.lang.reflect.Array;
+import java.lang.reflect.Field;
 
+import Info.List_Song;
+import Info.down_url;
+import Manager.Downurl;
+import Manager.Listsong;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import view.show;
 
 public class jsonStr {
 	private static String params;
@@ -18,6 +24,9 @@ public class jsonStr {
 	public static int totals=200;
 	public static int number=1;
 	public static int numbers=1;
+	public Class cla1;
+	public Class cla2;
+	public Class cla3;
 	public jsonStr(String data) throws IOException {
 		FileWriter fw=new FileWriter("评论/Comments"+numbers+".txt");
 		numbers++;
@@ -25,6 +34,9 @@ public class jsonStr {
 		if(!data.isEmpty()) {
 		JSONObject jobject=JSONObject.fromObject(data);
 		totals=(int)jobject.get("total");
+		if(totals==0) {
+			return ;
+		}
 		//System.out.println(totals);
 		if(jobject.get("hotComments")!=null) {
 			JSONArray array2=jobject.getJSONArray("hotComments");
@@ -57,7 +69,7 @@ public class jsonStr {
 				int RuserID;
 				String Ruser;
 				String Rcontent;
-				int Rlikednum;
+				int Rlikednum=0;
 				String Ruser_pic;
 				JSONArray reply=child.getJSONArray("beReplied");
 				String reps="";
@@ -67,7 +79,7 @@ public class jsonStr {
 					RuserID=json.getInt("userId");
 					Ruser=json.getString("nickname");
 					Rcontent=third.getString("content");
-					Rlikednum=third.getInt("likedCount");
+					//Rlikednum=third.getInt("likedCount");
 					Ruser_pic=json.getString("avatarUrl");
 					reps=reps+" 用户："+RuserID+" ( "+Ruser+" ) "+" 评论："+Rcontent+" 点赞数："+Rlikednum;
 				}
@@ -87,26 +99,36 @@ public class jsonStr {
 			System.out.println("Error");
 		}
 	}
-	public jsonStr(String data,int n) {
+	public jsonStr() {
+		
+	}
+	public void Anl(String data,int n) {
 		if(n==2) {
 			if(!data.isEmpty()) {
+				
 				JSONObject object=JSONObject.fromObject(data);
 				if((object.get("result"))!=null) {
 					JSONObject res=JSONObject.fromObject(object.get("result"));
+					totals=(int)res.get("songCount");
+					if(totals==0) {
+						System.out.println("end");
+					}
+					if(res.get("songs")!=null&&(res.get("songs") instanceof JSONArray)) {
 					JSONArray songs=res.getJSONArray("songs");
 					int numberi=res.getInt("songCount");
-					System.out.println(numberi);
+					//System.out.println(numberi);
 					for(int i=0;i<songs.size();i++) {
-						String sing="";
+						String singid="";
+						String singname="";
 						JSONObject childs=songs.getJSONObject(i);
 						JSONArray ar=childs.getJSONArray("ar");
 						for(int j=0;j<ar.size();j++) {
 							JSONObject sn=ar.getJSONObject(j);
 							String sing_name=sn.getString("name");
 							int sing_id=sn.getInt("id");
-							sing=sing+" ( "+sing_name+" | "+sing_id+" ) ";
+							singid=singid+"|"+sing_id;
+							singname=singname+"|"+sing_name;
 						}
-					
 						String song_name=childs.getString("name");
 						int song_id=childs.getInt("id");
 						int song_pop=childs.getInt("pop");
@@ -116,27 +138,76 @@ public class jsonStr {
 						int song_time=childs.getInt("dt");
 						String cd_name=al.getString("name");
 						int cd_id=al.getInt("id");
-						System.out.println("歌曲名："+song_name+"( "+song_id+" )"+" 歌手：( "+sing+" )"+" mvID："+mv_id+" 时长："
-							+ song_time+" 专辑："+cd_name+"( "+cd_id+" )"+" 封面地址： "+pic_url);
+						try {
+							cla1=Class.forName("Info.List_Song");
+							Field[] fields=cla1.getDeclaredFields();
+							Object obj=cla1.getConstructor().newInstance();
+							for(Field f:fields) {
+								f.setAccessible(true);
+								if(f.toString().contains("song_id")) {
+									f.set(obj, song_id);
+								}else if(f.toString().contains("song_name")) {
+									f.set(obj, song_name);
+								}else if(f.toString().contains("songer_id")) {
+									f.set(obj, singid);
+								}else if(f.toString().contains("songer_name")) {
+									f.set(obj, singname);
+								}else if(f.toString().contains("song_pop")) {
+									f.set(obj, song_pop);
+								}else if(f.toString().contains("song_time")) {
+									f.set(obj, song_time);
+								}else if(f.toString().contains("song_pic")) {
+									f.set(obj, pic_url);
+								}else if(f.toString().contains("song_cd")) {
+									f.set(obj, cd_name);
+								}else if(f.toString().contains("mv_id")) {
+									f.set(obj, mv_id);
+								}	
+							}
+							if(singname.contains("陈雪凝")) {
+								//System.out.println(singname);
+							}
+							System.out.println(obj.toString());
+							Listsong.list_song.put(song_id,(List_Song)obj);
+							
+						}catch(Exception e) {
+							System.out.println("Error");
+						}
+					}
 					}
 					}else {
 						System.out.println("ERROR");
 					}
 			}
-	}else if(n==3) {
-		if(!data.isEmpty()) {
-			JSONObject object=JSONObject.fromObject(data);
-			JSONArray url_song=object.getJSONArray("data");
-			for(int i=0;i<url_song.size();i++) {
-				JSONObject child=url_song.getJSONObject(i);
-				String s_url=child.getString("url");
-				int s_id=child.getInt("id");
-				int size=child.getInt("size");
-				System.out.println("url地址： "+s_url+" 大小："+size+" id: "+s_id);
 			}
-			}else {
-				System.out.println("ERROR");
+	}
+	public Downurl down(String data,int n) {
+		Downurl du=new Downurl();
+		if(n==3) {
+			if(!data.isEmpty()) {
+				JSONObject object=JSONObject.fromObject(data);
+				JSONArray url_song=object.getJSONArray("data");
+				String s_url = null;
+				int s_id = 0;
+				int size = 0;
+				down_url ds = null;
+				for(int i=0;i<url_song.size();i++) {
+					JSONObject child=url_song.getJSONObject(i);
+					s_url=child.getString("url");
+					s_id=child.getInt("id");
+					size=child.getInt("size");
+					
+					
+					
+				}
+				ds=new down_url(s_url,s_id,size);
+				du.put(s_id, ds);
+				}else {
+					System.out.println("ERROR");
+				}
 			}
-		}
+		new show(du);
+		return du;
+		
 	}
 }

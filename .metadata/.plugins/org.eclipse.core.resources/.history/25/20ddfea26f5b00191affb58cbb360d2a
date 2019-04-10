@@ -1,0 +1,15 @@
+package Info;
+import java.util.*;
+public class List_Song {
+	private int song_id;
+	private String song_name;
+	private String songer_id;
+	private String songer_name;
+	private int song_pop;
+	private int song_time;
+	private String song_pic;
+	private String song_cd;
+	public String toString() {
+		return songer_id+" : "+songer_name+"  "+song_id+" : "+song_name;
+	}
+}

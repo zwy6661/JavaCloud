@@ -1,0 +1,49 @@
+package contro;
+
+import Manager.Downurl;
+import Manager.Listsong;
+import encryption.rSecret;
+import view.show;
+
+public class ing {
+	public Object ingr(String ida,int type,int num) {
+		num=0;
+		Object object=new Object();
+		if(type==1) {
+			while(true) {
+				if(num<(61)) {
+				num=20+num;
+				}else {
+					//System.out.println("end");
+					break;
+				}
+				new rSecret(ida,type,num);
+			}
+			
+		}else if(type==2) {
+			while(true) {
+				if(num<(jsonStr.totals)) {
+				num=30+num;
+				}else {
+					//System.out.println("end");
+					break;
+				}
+				new rSecret(ida,type,num);
+				object=show.ls;
+			}
+		}else if(type==3) {
+			new rSecret(ida,type,num);
+			object=show.du; 
+		}
+		return object;
+		
+	}
+	public static void main(String[]args) {
+		Object obj=(new ing()).ingr("504835560",3,0);
+		if(obj instanceof Downurl) {
+			System.out.println("这是一个下载链接！");
+		}else if(obj instanceof Listsong) {
+			System.out.println("这是一个歌单链接！");
+		}
+	}
+}

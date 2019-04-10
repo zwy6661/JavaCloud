@@ -1,0 +1,12 @@
+package Info;
+import java.util.*;
+public class List_Song {
+	private int song_userId;
+	private String songer_name;
+	private int songer_id;
+	private int song_pop;
+	private String song_name;
+	private int song_time;
+	private String song_pic;
+	private String song_cd;
+}

@@ -1,0 +1,14 @@
+package view;
+
+import Info.List_Song;
+import Manager.Listsong;
+
+public class show {
+	public show(Listsong ls) {
+		List_Song[] lss=ls.getAll();
+		for(int i=0;i<lss.length;i++) {
+			lss[i].toString();
+		}
+		
+	}
+}

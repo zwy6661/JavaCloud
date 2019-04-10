@@ -1,0 +1,22 @@
+package view;
+
+import Info.List_Song;
+import Info.down_url;
+import Manager.Downurl;
+import Manager.Listsong;
+
+public class show {
+	public show(Listsong ls) {
+		List_Song[] lss=ls.getAll();
+		for(int i=0;i<lss.length;i++) {
+			System.out.println(lss[i].toString());
+		}
+		
+	}
+	public show(Downurl du) {
+		down_url[] dl=du.getAll();
+		for(int i=0;i<dl.length;i++) {
+			dl[i].toString();
+		}
+	}
+}

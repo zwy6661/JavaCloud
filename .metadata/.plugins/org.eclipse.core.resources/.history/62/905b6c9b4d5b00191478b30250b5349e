@@ -1,0 +1,12 @@
+package contro;
+
+import encryption.rSecret;
+
+public class ing {
+	public ing(String ida,int type,int num) {
+		new rSecret(ida,type,num);
+	}
+	public static void main(String[]args) {
+		new ing("[29343374]",3,20);
+	}
+}

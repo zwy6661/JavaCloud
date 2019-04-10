@@ -1,0 +1,28 @@
+package Manager;
+import java.util.*;
+
+import Info.List_Song;
+
+import java.lang.*;
+public class Listsong {
+	private static Map<Object , List_Song>  list_song=new HashMap<Object , List_Song>();
+	public void put(int key,List_Song s) {
+		list_song.put(key, s);
+	}
+	public List_Song get(int key) {
+		return list_song.get(key);
+	}
+	public List_Song[] getAll() {
+		List_Song[] ls=new List_Song[list_song.size()];
+		int i=0;
+		Set keyset=list_song.keySet();
+		Iterator it=keyset.iterator();
+		while(it.hasNext()) {
+			Object key=it.next();
+			List_Song value=list_song.get(key);
+			ls[i]=value;
+			i++;
+		}
+		return ls;
+	}
+}

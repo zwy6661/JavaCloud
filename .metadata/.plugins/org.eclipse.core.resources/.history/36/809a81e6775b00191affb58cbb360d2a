@@ -1,0 +1,86 @@
+package contro;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.http.Header;
+import org.apache.http.HttpEntity;
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
+import org.apache.http.protocol.HTTP;
+
+public class commentsClient implements Runnable{
+	private static HttpClient client=new DefaultHttpClient();
+	private static String u;
+	private static String p;
+	private static String en;
+	private static int types=0;
+	public commentsClient(String us,String ps,String ens,int type) {
+		u=us;
+		p=ps;
+		en=ens; 
+		types=type;
+	}
+	 public void run(){
+		
+		HttpPost post=new HttpPost(u);
+		/*post.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36");
+		post.addHeader("Referer","https://music.163.com/song?id=504835560");
+		post.addHeader("Origin","https://music.163.com");
+		post.addHeader("Cookie", "_iuqxldmzr_=32; _ntes_nnid=accf5a97283780cf9ac070521e423edd,1554696229333; _ntes_nuid=accf5a97283780cf9ac070521e423edd; WM_TID=sZQuTs19G8dEEUVEAQIs0rqOV%2BKAfQja; JSESSIONID-WYYY=I%5CxeGCKpr%2BstDhy%2BuamIX%5C9sdsiy9tOg9o5WSV3gY%2FMAsUy0zxerviK%2FRiCrdaFXQw6oxeDpQDuSD%5CuzRmPJ09KfN%5CsetVwo6SjQjQ0p%5CrFQYEEQkDCH4Wa%2BpZg0UagqitYjYhjom7zcbxjxsoo%2FE6eqGg2HwMHG1OVTn0kHrHfDFM%2B1%3A1554777972950; WM_NI=xMjfRolXyU8YCAerQkwq0W%2BYXAmM0y13xZdD%2BO1e3Q7gVE67n3okoBJhXYTya%2Bfse1fKw2XUB%2BK5PGWko9XLlG6121aXM9SujVFtsd7RTo%2FyApcgr9qNRaQCTrVu5sZRUzg%3D; WM_NIKE=9ca17ae2e6ffcda170e2e6eeb2f940b2eea2bae44dadb48ea7d44e928f8eaeb868f6f5bbd0c847b88b99b5f82af0fea7c3b92abc93a687d165b088b7b6bb53819fab93d461b5af00b8aa539c9fa3aeb373f3edb8bbe750e991ff86b25bf5b99aa6b53daeeda18cee4a8ab898bad773a3f5aa94e83ba695b9d3db5f82f585d6d34d95b5a1dadb48b099fad2b13ba38883dad27faa8a8a95f270f58e9c90ae7383b0ad88f133b3929e82d44998ae9a96b8799a8e9b9be637e2a3; playerid=92761491; __remember_me=true; MUSIC_U=486a667199cc24dac511cd57dae6b48c5ec0d5418fe977f4ff5b6da7c745fd54eb311e8e2cc5ecf7e8462d07e3f0715e951212dc34b3a7b7c35e6ae7ff0791ad2471929551f710cdc3061cd18d77b7a0; __csrf=a2a47ba26975e1ff226739b4d6740d2b");
+		post.addHeader("Content-Type", "application/x-www-form-urlencoded");*/
+		post.addHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36");
+		post.addHeader("Referer","https://music.163.com/search/");
+		post.addHeader("Origin","https://music.163.com");
+		post.addHeader("Cookie", "_iuqxldmzr_=32; _ntes_nnid=accf5a97283780cf9ac070521e423edd,1554696229333; _ntes_nuid=accf5a97283780cf9ac070521e423edd; WM_TID=sZQuTs19G8dEEUVEAQIs0rqOV%2BKAfQja; WM_NI=xMjfRolXyU8YCAerQkwq0W%2BYXAmM0y13xZdD%2BO1e3Q7gVE67n3okoBJhXYTya%2Bfse1fKw2XUB%2BK5PGWko9XLlG6121aXM9SujVFtsd7RTo%2FyApcgr9qNRaQCTrVu5sZRUzg%3D; WM_NIKE=9ca17ae2e6ffcda170e2e6eeb2f940b2eea2bae44dadb48ea7d44e928f8eaeb868f6f5bbd0c847b88b99b5f82af0fea7c3b92abc93a687d165b088b7b6bb53819fab93d461b5af00b8aa539c9fa3aeb373f3edb8bbe750e991ff86b25bf5b99aa6b53daeeda18cee4a8ab898bad773a3f5aa94e83ba695b9d3db5f82f585d6d34d95b5a1dadb48b099fad2b13ba38883dad27faa8a8a95f270f58e9c90ae7383b0ad88f133b3929e82d44998ae9a96b8799a8e9b9be637e2a3; __remember_me=true; JSESSIONID-WYYY=Wgd253lEuUKB8sxtdVzuOTzWONvRn7qTgeBiX495BE0mwJUBoBTK%5CyRwSGnB3%2FUA5fcx%2BImEp3pv%2BCNUNM5f8w%2BDeEQg%2FToz%2BmsXe0P51QJ6uuJxSC3pU0noor%5C86a%2BQ0bob7JnX%5CB%5C98O%2FcUSmiu%2BGpvidmvHnHxogMMBmCKcMJJR3M%3A1554794747911; MUSIC_U=486a667199cc24dac511cd57dae6b48c5ec0d5418fe977f4ff5b6da7c745fd54a8c69e290c25a40af50c171485df1dd344f5cf734ee293d60168ad9340e6d07565a4ae55ac11a7ccde39c620ce8469a8; __csrf=474d80d68ae39d23e186b3a017293819");
+		post.addHeader("Content-Type", "application/x-www-form-urlencoded");
+		Header[] headers=post.getAllHeaders();
+		/*for(int i=0;i<headers.length;i++) {
+			System.out.println(headers[i].toString());
+		}*/
+		
+		List<NameValuePair> list=new ArrayList<NameValuePair>();
+		list.add(new BasicNameValuePair("params",p));
+		list.add(new BasicNameValuePair("encSecKey",en));
+		try {
+			post.setEntity(new UrlEncodedFormEntity(list,HTTP.UTF_8));
+			HttpResponse response=new DefaultHttpClient().execute(post);
+			if(response.getStatusLine().getStatusCode()==200) {
+				HttpEntity result=response.getEntity();
+				String data="";
+				BufferedReader br=new BufferedReader(new InputStreamReader(result.getContent(),"utf-8"));
+				byte[] buf=new byte[8096];
+				String str;
+				while((str=br.readLine())!=null) {
+					data=data+str;
+					
+				}
+				//System.out.println(data);
+				if(types==1) {
+					new jsonStr(data);
+				}else if(types==2) {
+					new jsonStr(data,2);
+				}else if(types==3) {
+					new jsonStr(data,3);
+				}
+				
+			}
+		} catch (ClientProtocolException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+}
